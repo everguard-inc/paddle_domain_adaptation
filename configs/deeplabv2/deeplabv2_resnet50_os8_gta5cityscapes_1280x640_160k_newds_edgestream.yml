@@ -1,0 +1,43 @@
+batch_size: 4
+iters: 400000
+
+data:
+  train_images_root: /home/rodion/dataset_cobbling/train/img
+  train_images_masks_root: /home/rodion/dataset_cobbling/train/masks/cobbling
+  val_images_root: /home/rodion/dataset_cobbling/val/img
+  val_images_masks_root: /home/rodion/dataset_cobbling/val/masks/cobbling
+  size: [960, 540]
+  source_prefix: 't1'
+  target_prefix: '~t1'
+  num_classes: 1
+
+
+model:
+  type: DeepLabV2
+  backbone:
+    type: ResNet101
+    num_classes: 1
+  align_corners: True
+  #pretrained: #models/gta5_pretrained.pdparams
+  shape_stream: True
+
+ema_decay: 0.999
+resume_ema: None
+# flow control
+src_only: False
+edgeconstrain: False
+edgepullin: False
+featurepullin: False
+eval_src: False
+save_edge: False
+
+optimizer:
+  type: sgd
+  momentum: 0.9
+  weight_decay: 0.0005
+
+lr_scheduler:
+  type: PolynomialDecay
+  learning_rate: 0.0001
+  end_lr: 0
+  power: 0.9
