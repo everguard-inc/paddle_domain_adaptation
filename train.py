@@ -33,7 +33,7 @@ def parse_args():
     # params of training
     parser.add_argument(
         "--config", dest="cfg", help="The config file.",
-        default='configs/deeplabv2/deeplabv2_resnet50_os8_gta5cityscapes_1280x640_160k_newds_edgestream.yml',
+        default='configs/deeplabv2/custom.yml',
         type=str)
     parser.add_argument(
         '--iters',
