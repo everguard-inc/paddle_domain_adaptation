@@ -1,16 +1,15 @@
-batch_size: 4
+batch_size: 2
 iters: 400000
 
 data:
-  train_images_root: /home/rodion/dataset_cobbling/train/img
-  train_images_masks_root: /home/rodion/dataset_cobbling/train/masks/cobbling
-  val_images_root: /home/rodion/dataset_cobbling/val/img
-  val_images_masks_root: /home/rodion/dataset_cobbling/val/masks/cobbling
-  size: [960, 540]
-  source_prefix: 't1'
-  target_prefix: '~t1'
+  train_images_root: /home/eg/rodion/dataset_cobbling/train/img
+  train_images_masks_root:  /home/eg/rodion/dataset_cobbling/train/masks/cobbling
+  val_images_root:  /home/eg/rodion/dataset_cobbling/val/img
+  val_images_masks_root:  /home/eg/rodion/dataset_cobbling/val/masks/cobbling
+  size: [640, 320]
+  source_prefix: 't'
+  target_prefix: '~t'
   num_classes: 1
-
 
 model:
   type: DeepLabV2
@@ -19,7 +18,7 @@ model:
     num_classes: 1
   align_corners: True
   #pretrained: #models/gta5_pretrained.pdparams
-  shape_stream: True
+  shape_stream: False
 
 ema_decay: 0.999
 resume_ema: None

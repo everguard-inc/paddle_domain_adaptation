@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from multiprocessing import reduction
 import os
 import time
 import numpy as np
@@ -44,7 +45,7 @@ class Trainer():
 
         self.model = model
         self.ema = EMA(self.model, self.ema_decay)
-        self.celoss = losses.CrossEntropyLoss()
+        self.celoss = losses.CrossEntropyLoss(soft_label = False, ignore_index = 255)
         self.klloss = losses.KLLoss()
         self.mseloss = losses.MSELoss()
         self.bceloss_src = losses.BCELoss(weight='dynamic')
@@ -173,9 +174,9 @@ class Trainer():
                     logits_list_src = self.model(images_src)
 
                 ##### source seg & edge loss ####
+                labels_src_np = np.asarray(labels_src, np.float32)
                 loss_src_seg_main = self.celoss(logits_list_src[0], labels_src)
-                loss_src_seg_aux = 0.1 * self.celoss(logits_list_src[1],
-                                                     labels_src)
+                loss_src_seg_aux = 0.1 * self.celoss(logits_list_src[1], labels_src)
 
                 loss_src_seg = loss_src_seg_main + loss_src_seg_aux
                 loss_dict["source_main"] = loss_src_seg_main.numpy()[0]

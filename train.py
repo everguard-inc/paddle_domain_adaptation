@@ -20,12 +20,17 @@ import paddle
 from typing import Dict
 import yaml
 from paddleseg.utils import logger, get_sys_env
-
+import warnings
+warnings.filterwarnings("ignore")
 import utils
 from cvlibs import Config
 from script.train import Trainer
 from datasets import Domen1Dataset, Domen2Dataset, get_augmentation
 
+#paddle.disable_static()
+#print('\n\n\n')
+#print(paddle.in_dynamic_mode())  # True, Now we are in dynamic mode
+#print('\n\n\n')
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')
@@ -46,7 +51,7 @@ def parse_args():
         dest='batch_size',
         help='Mini batch size of one gpu or cpu',
         type=int,
-        default=4)
+        default=2)
     parser.add_argument(
         '--learning_rate',
         dest='learning_rate',
@@ -194,10 +199,10 @@ def main(args):
             'The length of train_dataset is 0. Please check if your dataset is valid'
         )
 
-    msg = '\n---------------Config Information---------------\n'
-    msg += str(cfg)
-    msg += '------------------------------------------------'
-    logger.info(msg)
+    #msg = '\n---------------Config Information---------------\n'
+    #msg += str(cfg)
+    #msg += '------------------------------------------------'
+    #logger.info(msg)
 
     trainer = Trainer(model=cfg.model, cfg=cfg.dic)
     trainer.train(
