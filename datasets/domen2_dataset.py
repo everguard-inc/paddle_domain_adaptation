@@ -60,9 +60,13 @@ class Domen2Dataset(Domen1Dataset):
         if (self.split == "train" or
                 self.split == "trainval") and self.training:
             image, gt_image, edge_mask = self._train_sync_transform(image, gt_image)
+            if len(gt_image.shape)==3:
+                gt_image = gt_image[:,:,0]
             return image, gt_image, edge_mask
         else:
             image, gt_image, edge_mask = self._val_sync_transform(image, gt_image)
+            if len(gt_image.shape)==3:
+                gt_image = gt_image[:,:,0]
             return image, gt_image, edge_mask, id
 
         return image, gt_image, edge_mask

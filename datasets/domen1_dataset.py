@@ -87,9 +87,13 @@ class Domen1Dataset(io.Dataset):
         if (self.split == "train" or
                 self.split == "trainval") and self.training:
             image, gt_image, edge_mask = self._train_sync_transform(image, gt_image)
+            if len(gt_image.shape)==3:
+                gt_image = gt_image[:,:,0]
             return image, gt_image, edge_mask
         else:
             image, gt_image, edge_mask = self._val_sync_transform(image, gt_image)
+            if len(gt_image.shape)==3:
+                gt_image = gt_image[:,:,0]
             return image, gt_image, edge_mask, id
 
     def _train_sync_transform(self, img, mask):
@@ -124,6 +128,7 @@ class Domen1Dataset(io.Dataset):
         if mask:
             img = self._img_transform(img)
             mask, edge_mask = self._mask_transform(mask)
+            
             return img, mask, edge_mask
         else:
             img = self._img_transform(img)
@@ -142,6 +147,7 @@ class Domen1Dataset(io.Dataset):
     def _mask_transform(self, gt_image):
         target = np.asarray(gt_image, np.float32)
         target = self.id2trainId(target).copy()
+        #target = np.expand_dims(target, axis=0)
         edge_mask = np.nan
         if self.edge:
             edge_mask = F.mask_to_binary_edge(
@@ -155,7 +161,7 @@ class Domen1Dataset(io.Dataset):
         image -= IMG_MEAN
         image = image.transpose((2, 0, 1)).copy()  # (C x H x W)
 
-        new_image = paddle.to_tensor(image)
+        new_image = image
 
         return new_image
     

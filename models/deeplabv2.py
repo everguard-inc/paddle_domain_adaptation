@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import os
-
+import numpy as np
 import paddle
 import paddle.nn as nn
 import paddle.nn.functional as F
@@ -68,10 +68,10 @@ class DeepLabV2(nn.Layer):
 
     def forward(self, x):
         feat_list = self.backbone(x)
-
         if self.shape_stream:
             logit_list = self.head(self.backbone.conv1_logit, feat_list[-1])
-            logit_list.extend(feat_list[:2])
+            feat_list[:2] = paddle.to_tensor(feat_list[:2])
+            logit_list.extend(list(feat_list[:2]))
             edge_logit, seg_logit, aug_logit = [
                 F.interpolate(
                     logit,
