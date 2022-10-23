@@ -19,8 +19,8 @@ On top of that, we also tried several adjustments including:
 ```
 git clone https://github.com/PaddlePaddle/PaddleSeg.git
 cd contrib/DomainAdaptation/
-pip install -r requirments.txt
-python -m pip install paddlepaddle-gpu==2.2.0 -i https://mirror.baidu.com/pypi/simple
+pip3 install -r requirements.txt
+python3 -m pip install paddlepaddle-gpu==2.2.0 -i https://mirror.baidu.com/pypi/simple
 ```
 
 ### 3. Train and test

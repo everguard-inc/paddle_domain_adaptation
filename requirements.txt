@@ -1,2 +1,3 @@
 albumentations
+jpeg4py
 paddleseg==2.3.0
